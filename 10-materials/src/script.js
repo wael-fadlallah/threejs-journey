@@ -1,6 +1,7 @@
 import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { Light } from "three";
 
 /**
  * Base
@@ -27,8 +28,7 @@ const roughnessTexture = textureLoader.load("textures/door/roughness.jpg");
 const heightTexture = textureLoader.load("textures/door/height.jpg");
 
 const gradientsTexture = textureLoader.load("textures/gradients/3.jpg");
-
-const matcaps1Texture = textureLoader.load("textures/matcaps/1.png");
+const matcaps1Texture = textureLoader.load("textures/matcaps/3.png");
 
 /**
  * Objects
@@ -39,9 +39,13 @@ const matcaps1Texture = textureLoader.load("textures/matcaps/1.png");
 // material.wireframe = true;
 // material.side = THREE.DoubleSide
 
-const material = new THREE.MeshNormalMaterial();
-material.flatShading = true
+// const material = new THREE.MeshMatcapMaterial();
+// const material = new THREE.MeshDepthMaterial();
+// material.flatShading = true
 
+const material = new THREE.MeshToonMaterial();
+material.gradientMap = gradientsTexture;
+material.shininess = 100
 const sphare = new THREE.Mesh(new THREE.SphereGeometry(0.5, 16, 16), material);
 sphare.position.x = 1.5;
 
@@ -53,6 +57,14 @@ const torus = new THREE.Mesh(
 );
 torus.position.x = -1.5;
 scene.add(plane, sphare, torus);
+
+/**
+ *  Light
+ */
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
+scene.add(ambientLight);
+const pointLight = new THREE.PointLight(0xffffff, 0.5)
+scene.add(pointLight);
 /**
  * Sizes
  */

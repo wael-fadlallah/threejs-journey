@@ -22,19 +22,29 @@ const scene = new THREE.Scene();
  */
 const loadingManger = new THREE.LoadingManager();
 const textureLoader = new THREE.TextureLoader(loadingManger);
-const alphaTexture = textureLoader.load("textures/door/alpha.jpg");
-const metalnessTexture = textureLoader.load("textures/door/metalness.jpg");
-const doorAmbientOcclusionTexture = textureLoader.load(
-  "textures/door/ambientOcclusion.jpg"
-);
-const normalTexture = textureLoader.load("textures/door/normal.jpg");
-const doorColorTexture = textureLoader.load("textures/door/color.jpg");
-const roughnessTexture = textureLoader.load("textures/door/roughness.jpg");
-const doorHeightTexture = textureLoader.load("textures/door/height.jpg");
+// const alphaTexture = textureLoader.load("textures/door/alpha.jpg");
+// const metalnessTexture = textureLoader.load("textures/door/metalness.jpg");
+// const doorAmbientOcclusionTexture = textureLoader.load(
+//   "textures/door/ambientOcclusion.jpg"
+// );
+// const normalTexture = textureLoader.load("textures/door/normal.jpg");
+// const doorColorTexture = textureLoader.load("textures/door/color.jpg");
+// const roughnessTexture = textureLoader.load("textures/door/roughness.jpg");
+// const doorHeightTexture = textureLoader.load("textures/door/height.jpg");
 
-const gradientsTexture = textureLoader.load("textures/gradients/3.jpg");
-const matcaps1Texture = textureLoader.load("textures/matcaps/3.png");
+// const gradientsTexture = textureLoader.load("textures/gradients/3.jpg");
+// const matcaps1Texture = textureLoader.load("textures/matcaps/3.png");
 
+const cubeTextureLoader = new THREE.CubeTextureLoader();
+
+const envMapTexture = cubeTextureLoader.load([
+  '/textures/environmentMaps/1/px.jpg',
+  '/textures/environmentMaps/1/nx.jpg',
+  '/textures/environmentMaps/1/py.jpg',
+  '/textures/environmentMaps/1/ny.jpg',
+  '/textures/environmentMaps/1/pz.jpg',
+  '/textures/environmentMaps/1/nz.jpg',
+])
 /**
  * Objects
  */
@@ -52,20 +62,26 @@ const matcaps1Texture = textureLoader.load("textures/matcaps/3.png");
 // material.gradientMap = gradientsTexture;
 // material.shininess = 100
 
-const material = new THREE.MeshStandardMaterial();
+// const material = new THREE.MeshStandardMaterial();
 
 // material.metalness = 0.45;
 // material.roughness = 0.45;
-material.map = doorColorTexture;
-material.aoMap = doorAmbientOcclusionTexture
-material.aoMapIntensity = 1
-material.displacementMap = doorHeightTexture
-material.displacementScale = 0.05
-material.metalnessMap = metalnessTexture;
-material.roughnessMap = roughnessTexture;
-material.normalMap = normalTexture
-material.transparent = true;
-material.alphaMap = alphaTexture
+// material.map = doorColorTexture;
+// material.aoMap = doorAmbientOcclusionTexture
+// material.aoMapIntensity = 1
+// material.displacementMap = doorHeightTexture
+// material.displacementScale = 0.05
+// material.metalnessMap = metalnessTexture;
+// material.roughnessMap = roughnessTexture;
+// material.normalMap = normalTexture
+// material.transparent = true;
+// material.alphaMap = alphaTexture
+
+const material = new THREE.MeshStandardMaterial();
+
+material.metalness = 0.7;
+material.roughness = 0.02;
+material.envMap = envMapTexture;
 
 gui.add(material, "metalness").min(0).max(1);
 gui.add(material, "roughness").min(0).max(1);

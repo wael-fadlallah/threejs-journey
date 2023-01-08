@@ -14,6 +14,7 @@ const canvas = document.querySelector("canvas.webgl");
 
 // Scene
 const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0F172A)
 
 /**
  * Lights
@@ -32,8 +33,10 @@ const pointLight = new THREE.PointLight(0xff9000, 0.5, 10, 2);
 pointLight.position.set(1, -0.5, 1);
 scene.add(pointLight);
 
-const rectAreaLight = new THREE.RectAreaLight(0x4e00ff, 2,1,1)
-rectAreaLight.position.z = 2;
+const rectAreaLight = new THREE.RectAreaLight(0x4e00ff, 7,2,1)
+
+// rectAreaLight.position.z = -1;
+rectAreaLight.position.x = -1;
 rectAreaLight.lookAt(new THREE.Vector3())
 scene.add(rectAreaLight);
 
@@ -46,10 +49,10 @@ scene.add(spotLight);
 // Material
 const material = new THREE.MeshStandardMaterial();
 material.roughness = 0.4;
-
+material.color = new THREE.Color(0x0F172A)
 // Objects
 const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), material);
-sphere.position.x = -1.5;
+// sphere.position.x = -1.5;
 
 const cube = new THREE.Mesh(new THREE.BoxGeometry(0.75, 0.75, 0.75), material);
 
@@ -59,11 +62,7 @@ const torus = new THREE.Mesh(
 );
 torus.position.x = 1.5;
 
-const plane = new THREE.Mesh(new THREE.PlaneGeometry(5, 5), material);
-plane.rotation.x = -Math.PI * 0.5;
-plane.position.y = -0.65;
-
-scene.add(sphere, cube, torus, plane);
+scene.add(cube, sphere);
 
 /**
  * Sizes
@@ -126,15 +125,14 @@ const tick = () => {
   // Update objects
   sphere.rotation.y = 0.1 * elapsedTime;
   cube.rotation.y = 0.1 * elapsedTime;
-  torus.rotation.y = 0.1 * elapsedTime;
 
   sphere.rotation.x = 0.15 * elapsedTime;
   cube.rotation.x = 0.15 * elapsedTime;
-  torus.rotation.x = 0.15 * elapsedTime;
 
   // Update controls
   controls.update();
 
+  camera.lookAt(sphere.position)
   // Render
   renderer.render(scene, camera);
 
